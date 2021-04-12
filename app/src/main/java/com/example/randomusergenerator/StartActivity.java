@@ -6,9 +6,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -18,67 +20,89 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class StartActivity extends AppCompatActivity {
 
-    private EditText email;
-    private EditText password;
-    private Button register;
-    private Button accountExists;
+    private FirebaseAuth mAuth;
+    @Override
+    protected void onStart() {
+        mAuth = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser()!=null) {
 
-    FirebaseAuth auth;
+            Intent intent = new Intent(StartActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        super.onStart();
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        email = findViewById(R.id.editTextTextEmailAddress2);
-        password = findViewById(R.id.editTextTextPassword);
-        register = findViewById(R.id.registerButton);
-        accountExists = findViewById(R.id.accountExistsButton);
+        mAuth = FirebaseAuth.getInstance();
+        EditText email = findViewById(R.id.emailLogIn);
+        EditText pass = findViewById(R.id.passwordLogIn);
 
-        auth = FirebaseAuth.getInstance();
+        Button login = findViewById(R.id.login);
 
-        register.setOnClickListener(new View.OnClickListener() {
+        TextView signUpView = findViewById(R.id.signUpView);
+        signUpView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                String txt_email = email.getText().toString();
-                String txt_password = password.getText().toString();
-
-                if(TextUtils.isEmpty(txt_email) || TextUtils.isEmpty(txt_password)){
-                    Toast.makeText(StartActivity.this, "Empty Credentials", Toast.LENGTH_SHORT).show();
-                } else if(txt_password.length() < 6){
-                    Toast.makeText(StartActivity.this, "Password is too short", Toast.LENGTH_SHORT).show();
-                } else{
-                    registerUser(txt_email, txt_password);
-                }
-            }
-        });
-
-        accountExists.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(StartActivity.this , LoginActivity.class));
+                Intent intent = new Intent(StartActivity.this,LoginActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
 
-    }
-
-    private void registerUser(String txt_email, String txt_password) {
-
-        auth.createUserWithEmailAndPassword(txt_email, txt_password).addOnCompleteListener(StartActivity.this, new OnCompleteListener<AuthResult>() {
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
+            public void onClick(View v) {
+                String emailText = email.getText().toString();
+                String passWord = pass.getText().toString();
 
-                if(task.isSuccessful()){
-                    Toast.makeText(StartActivity.this, "Registering User Successful", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(StartActivity.this, MainActivity.class));
-                    finish();
-                } else{
-                    Toast.makeText(StartActivity.this, "Registration Failed", Toast.LENGTH_SHORT).show();
+                if(email.getText().toString().isEmpty()) {
+                    email.setError("Email Required");
+                    email.requestFocus();
+                    return;
                 }
+                if(!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()) {
+                    email.setError("Valid Email Required");
+                    email.requestFocus();
+                    return;
+                }
+                if(pass.getText().toString().isEmpty()) {
+                    pass.setError("Password Required");
+                    pass.requestFocus();
+                    return;
+                }
+                if(pass.getText().toString().length()<6) {
+                    pass.setError("Min 6 char required");
+                    pass.requestFocus();
+                    return;
+                }
+
+                loginUser(emailText,passWord);
             }
         });
-
     }
+
+    public void loginUser(String email, String password)
+    {
+
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(task -> {
+
+                    if(task.isSuccessful()) {
+                        //Log In success
+                        Intent intent = new Intent(StartActivity.this,MainActivity.class);
+                        intent.putExtra("Email",email);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else
+                        Toast.makeText(this, "Invalid Email / Password", Toast.LENGTH_SHORT).show();
+                });
+    }
+
 }
