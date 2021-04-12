@@ -2,14 +2,18 @@ package com.example.randomusergenerator;
 
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 import android.content.Intent;
 import android.os.Bundle;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -19,6 +23,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class StartActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
+
     @Override
     protected void onStart() {
         mAuth = FirebaseAuth.getInstance();
@@ -40,6 +45,13 @@ public class StartActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         EditText email = findViewById(R.id.emailLogIn);
         EditText pass = findViewById(R.id.passwordLogIn);
+        findViewById(R.id.start_layout).setOnClickListener(view -> {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            View focusedView = StartActivity.this.getCurrentFocus();
+            if (focusedView != null) {
+                imm.hideSoftInputFromWindow(focusedView.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        });
 
         Button login = findViewById(R.id.login);
 
@@ -47,7 +59,7 @@ public class StartActivity extends AppCompatActivity {
         signUpView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(StartActivity.this,LoginActivity.class);
+                Intent intent = new Intent(StartActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -20,21 +21,71 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView MainInformation;
-    TextView LivingInformation;
-    TextView AgeInformation;
-    TextView ContactInformation;
-
+    TextView gender;
+    TextView title;
+    TextView firstName;
+    TextView lastName;
+    TextView dob;
+    TextView age;
+    TextView streetName;
+    TextView streetNumber;
+    TextView city;
+    TextView state;
+    TextView country;
+    TextView postCode;
+    TextView nationality;
+    TextView email;
+    TextView loginUsername;
+    TextView loginPassword;
+    TextView phoneNumber;
+    TextView cellNumber;
+    TextView firstGenerate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MainInformation = findViewById(R.id.MainInformation);
-        LivingInformation = findViewById(R.id.LivingInformation);
-        AgeInformation = findViewById(R.id.AgeInformation);
-        ContactInformation = findViewById(R.id.ContactInformation);
+        gender = findViewById(R.id.gender);
+        title = findViewById(R.id.title);
+        firstName = findViewById(R.id.firstName);
+        lastName = findViewById(R.id.lastName);
+        dob = findViewById(R.id.dob);
+        streetName = findViewById(R.id.streetName);
+        age = findViewById(R.id.age);
+        streetNumber = findViewById(R.id.streetNumber);
+        city = findViewById(R.id.city);
+        state = findViewById(R.id.state);
+        country = findViewById(R.id.country);
+        postCode = findViewById(R.id.postCode);
+        nationality = findViewById(R.id.nationality);
+        email = findViewById(R.id.email);
+        loginUsername = findViewById(R.id.loginUsername);
+        loginPassword = findViewById(R.id.password);
+        phoneNumber = findViewById(R.id.phoneNumber);
+        cellNumber = findViewById(R.id.cellNumber);
+        firstGenerate = findViewById(R.id.firstGenerate);
+
+        gender.setVisibility(View.INVISIBLE);
+        title.setVisibility(View.INVISIBLE);
+        firstName.setVisibility(View.INVISIBLE);
+        lastName.setVisibility(View.INVISIBLE);
+        dob.setVisibility(View.INVISIBLE);
+        streetName.setVisibility(View.INVISIBLE);
+        age.setVisibility(View.INVISIBLE);
+        streetNumber.setVisibility(View.INVISIBLE);
+        city.setVisibility(View.INVISIBLE);
+        state.setVisibility(View.INVISIBLE);
+        country.setVisibility(View.INVISIBLE);
+        postCode.setVisibility(View.INVISIBLE);
+        nationality.setVisibility(View.INVISIBLE);
+        email.setVisibility(View.INVISIBLE);
+        loginUsername.setVisibility(View.INVISIBLE);
+        loginPassword.setVisibility(View.INVISIBLE);
+        phoneNumber.setVisibility(View.INVISIBLE);
+        cellNumber.setVisibility(View.INVISIBLE);
+
+
     }
 
     public void getInformation(){
@@ -48,34 +99,49 @@ public class MainActivity extends AppCompatActivity {
         informationCall.enqueue(new Callback<Information>() {
             @Override
             public void onResponse(Call<Information> call, Response<Information> response) {
-                Information inf = response.body();
-                String output1 = " ";
-                String output2 = " ";
-                String output3 = " ";
-                String output4 = " ";
-                output1 += "Gender:\t" + inf.results.get(0).getGender() + "\n";
-                output1 += "Title:\t" + inf.results.get(0).getName().getTitle() + "\n";
-                output1 += "First name:\t" + inf.results.get(0).getName().getFirst() + "\n";
-                output1 += "Last Name:\t" + inf.results.get(0).getName().getLast() + "\n";
-                output2 += "Street Name:\t" + inf.results.get(0).getLocation().getStreet().getName() + "\n";
-                output2 += "Street Number:\t" + Integer.toString(inf.results.get(0).getLocation().getStreet().getNumber()) + "\n";
-                output2 += "City:\t" + inf.results.get(0).getLocation().getCity() + "\n";
-                output2 += "State:\t" + inf.results.get(0).getLocation().getState() + "\n";
-                output2 += "Country:\t" + inf.results.get(0).getLocation().getCountry() + "\n";
-                output2 += "Postcode:\t" + Integer.toString(inf.results.get(0).getLocation().getPostcode()) + "\n";
-                output3 += "Email:\t" + inf.results.get(0).getEmail() + "\n";
-                output3 += "Login username:\t" + inf.results.get(0).getLogin().getUsername() + "\n";
-                output3 += "Login Password:\t" + inf.results.get(0).getLogin().getPassword() + "\n";
-                output4 += "Date of Birth:\t" + inf.results.get(0).getDob().getDate() + "\n";
-                output4 += "Age:\t" + inf.results.get(0).getDob().getAge() + "\n";
-                output3 += "Phone Number:\t" + inf.results.get(0).getPhone() + "\n";
-                output3 += "Cell Number:\t" + inf.results.get(0).getCell() + "\n";
-                output2 += "Nationality:\t" + inf.results.get(0).getNat() + "\n";
 
-                MainInformation.setText(output1.trim());
-                LivingInformation.setText(output2.trim());
-                AgeInformation.setText(output4.trim());
-                ContactInformation.setText(output3.trim());
+                firstGenerate.setVisibility(View.INVISIBLE);
+
+                String output = " ";
+                Information inf = response.body();
+                output = inf.results.get(0).getDob().getDate().toString().substring(0,11) + inf.results.get(0).getDob().getDate().toString().substring(30);
+                gender.setText("Gender:\t" + inf.results.get(0).getGender());
+                title.setText("Title:\t" + inf.results.get(0).getName().getTitle());
+                firstName.setText("First name:\t" + inf.results.get(0).getName().getFirst());
+                lastName.setText("Last Name:\t" + inf.results.get(0).getName().getLast());
+                streetName.setText("Street Name:\t" + inf.results.get(0).getLocation().getStreet().getName());
+                streetNumber.setText("Street Number:\t" + Integer.toString(inf.results.get(0).getLocation().getStreet().getNumber()));
+                city.setText("City:\t" + inf.results.get(0).getLocation().getCity());
+                state.setText("State:\t" + inf.results.get(0).getLocation().getState());
+                country.setText("Country:\t" + inf.results.get(0).getLocation().getCountry());
+                postCode.setText("Postcode:\t" + Integer.toString(inf.results.get(0).getLocation().getPostcode()));
+                email.setText("Email:\t" + inf.results.get(0).getEmail());
+                loginUsername.setText("Login username:\t" + inf.results.get(0).getLogin().getUsername());
+                loginPassword.setText("Login Password:\t" + inf.results.get(0).getLogin().getPassword());
+                dob.setText("Date of Birth:\t" + output);
+                age.setText("Age:\t" + inf.results.get(0).getDob().getAge());
+                phoneNumber.setText("Phone Number:\t" + inf.results.get(0).getPhone());
+                cellNumber.setText("Cell Number:\t" + inf.results.get(0).getCell());
+                nationality.setText("Nationality:\t" + inf.results.get(0).getNat());
+
+                gender.setVisibility(View.VISIBLE);
+                title.setVisibility(View.VISIBLE);
+                firstName.setVisibility(View.VISIBLE);
+                lastName.setVisibility(View.VISIBLE);
+                dob.setVisibility(View.VISIBLE);
+                streetName.setVisibility(View.VISIBLE);
+                age.setVisibility(View.VISIBLE);
+                streetNumber.setVisibility(View.VISIBLE);
+                city.setVisibility(View.VISIBLE);
+                state.setVisibility(View.VISIBLE);
+                country.setVisibility(View.VISIBLE);
+                postCode.setVisibility(View.VISIBLE);
+                nationality.setVisibility(View.VISIBLE);
+                email.setVisibility(View.VISIBLE);
+                loginUsername.setVisibility(View.VISIBLE);
+                loginPassword.setVisibility(View.VISIBLE);
+                phoneNumber.setVisibility(View.VISIBLE);
+                cellNumber.setVisibility(View.VISIBLE);
 
             }
 
