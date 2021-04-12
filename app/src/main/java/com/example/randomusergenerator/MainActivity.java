@@ -66,24 +66,7 @@ public class MainActivity extends AppCompatActivity {
         cellNumber = findViewById(R.id.cellNumber);
         firstGenerate = findViewById(R.id.firstGenerate);
 
-        gender.setVisibility(View.INVISIBLE);
-        title.setVisibility(View.INVISIBLE);
-        firstName.setVisibility(View.INVISIBLE);
-        lastName.setVisibility(View.INVISIBLE);
-        dob.setVisibility(View.INVISIBLE);
-        streetName.setVisibility(View.INVISIBLE);
-        age.setVisibility(View.INVISIBLE);
-        streetNumber.setVisibility(View.INVISIBLE);
-        city.setVisibility(View.INVISIBLE);
-        state.setVisibility(View.INVISIBLE);
-        country.setVisibility(View.INVISIBLE);
-        postCode.setVisibility(View.INVISIBLE);
-        nationality.setVisibility(View.INVISIBLE);
-        email.setVisibility(View.INVISIBLE);
-        loginUsername.setVisibility(View.INVISIBLE);
-        loginPassword.setVisibility(View.INVISIBLE);
-        phoneNumber.setVisibility(View.INVISIBLE);
-        cellNumber.setVisibility(View.INVISIBLE);
+        setAlpha0();
 
 
     }
@@ -100,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Information> call, Response<Information> response) {
 
-                firstGenerate.setVisibility(View.INVISIBLE);
+                setAlpha0();
 
                 String output = " ";
                 Information inf = response.body();
@@ -124,25 +107,7 @@ public class MainActivity extends AppCompatActivity {
                 cellNumber.setText("Cell Number:\t" + inf.results.get(0).getCell());
                 nationality.setText("Nationality:\t" + inf.results.get(0).getNat());
 
-                gender.setVisibility(View.VISIBLE);
-                title.setVisibility(View.VISIBLE);
-                firstName.setVisibility(View.VISIBLE);
-                lastName.setVisibility(View.VISIBLE);
-                dob.setVisibility(View.VISIBLE);
-                streetName.setVisibility(View.VISIBLE);
-                age.setVisibility(View.VISIBLE);
-                streetNumber.setVisibility(View.VISIBLE);
-                city.setVisibility(View.VISIBLE);
-                state.setVisibility(View.VISIBLE);
-                country.setVisibility(View.VISIBLE);
-                postCode.setVisibility(View.VISIBLE);
-                nationality.setVisibility(View.VISIBLE);
-                email.setVisibility(View.VISIBLE);
-                loginUsername.setVisibility(View.VISIBLE);
-                loginPassword.setVisibility(View.VISIBLE);
-                phoneNumber.setVisibility(View.VISIBLE);
-                cellNumber.setVisibility(View.VISIBLE);
-
+                animation();
             }
 
             @Override
@@ -166,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
         super.onOptionsItemSelected(item);
         switch(item.getItemId()){
             case R.id.generate:
+                firstGenerate.setVisibility(View.GONE);
                 getInformation();
                 return true;
             case R.id.signOut:
@@ -175,5 +141,49 @@ public class MainActivity extends AppCompatActivity {
             default:
                 return false;
         }
+    }
+
+    public void setAlpha0(){
+
+        gender.setAlpha(0f);
+        title.setAlpha(0f);
+        firstName.setAlpha(0f);
+        lastName.setAlpha(0f);
+        dob.setAlpha(0f);
+        streetName.setAlpha(0f);
+        age.setAlpha(0f);
+        streetNumber.setAlpha(0f);
+        city.setAlpha(0f);
+        state.setAlpha(0f);
+        country.setAlpha(0f);
+        postCode.setAlpha(0f);
+        nationality.setAlpha(0f);
+        email.setAlpha(0f);
+        loginUsername.setAlpha(0f);
+        loginPassword.setAlpha(0f);
+        phoneNumber.setAlpha(0f);
+        cellNumber.setAlpha(0f);
+    }
+
+    public void animation(){
+
+        gender.animate().alpha(1.0f).setDuration(500).start();
+        title.animate().alpha(1.0f).setDuration(1000).start();
+        firstName.animate().alpha(1.0f).setDuration(1500).start();
+        lastName.animate().alpha(1.0f).setDuration(2000).start();
+        dob.animate().alpha(1.0f).setDuration(2500).start();
+        streetName.animate().alpha(1.0f).setDuration(3000).start();
+        age.animate().alpha(1.0f).setDuration(3500).start();
+        streetNumber.animate().alpha(1.0f).setDuration(4000).start();
+        city.animate().alpha(1.0f).setDuration(4500).start();
+        state.animate().alpha(1.0f).setDuration(5000).start();
+        country.animate().alpha(1.0f).setDuration(5500).start();
+        postCode.animate().alpha(1.0f).setDuration(6000).start();
+        nationality.animate().alpha(1.0f).setDuration(6500).start();
+        email.animate().alpha(1.0f).setDuration(7000).start();
+        loginUsername.animate().alpha(1.0f).setDuration(7500).start();
+        loginPassword.animate().alpha(1.0f).setDuration(8000).start();
+        phoneNumber.animate().alpha(1.0f).setDuration(8500).start();
+        cellNumber.animate().alpha(1.0f).setDuration(9000).start();
     }
 }
