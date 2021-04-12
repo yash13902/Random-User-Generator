@@ -1,10 +1,14 @@
 package com.example.randomusergenerator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
         textView = findViewById(R.id.textView2);
 
-        getInformation();
+
     }
 
     public void getInformation(){
@@ -61,15 +65,39 @@ public class MainActivity extends AppCompatActivity {
                 output += "Cell Number:\t" + inf.results.get(0).getCell() + "\n";
                 output += "Nationality:\t" + inf.results.get(0).getNat() + "\n";
 
-                textView.setText(output);
+                textView.setText(output.trim());
 
             }
 
             @Override
             public void onFailure(Call<Information> call, Throwable t) {
-                textView.setText("Could not find the place!");
+                getInformation();
             }
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        super.onOptionsItemSelected(item);
+        switch(item.getItemId()){
+            case R.id.generate:
+                getInformation();
+                return true;
+            case R.id.signOut:
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(MainActivity.this, StartActivity.class));
+                return true;
+            default:
+                return false;
+        }
     }
 }
