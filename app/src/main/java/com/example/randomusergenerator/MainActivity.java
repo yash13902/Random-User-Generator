@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,16 +20,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView textView;
+    TextView MainInformation;
+    TextView LivingInformation;
+    TextView AgeInformation;
+    TextView ContactInformation;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        textView = findViewById(R.id.textView2);
-
-
+        MainInformation = findViewById(R.id.MainInformation);
+        LivingInformation = findViewById(R.id.LivingInformation);
+        AgeInformation = findViewById(R.id.AgeInformation);
+        ContactInformation = findViewById(R.id.ContactInformation);
     }
 
     public void getInformation(){
@@ -45,27 +49,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Information> call, Response<Information> response) {
                 Information inf = response.body();
-                String output = " ";
-                output += "Gender:\t" + inf.results.get(0).getGender() + "\n";
-                output += "Title:\t" + inf.results.get(0).getName().getTitle() + "\n";
-                output += "First name:\t" + inf.results.get(0).getName().getFirst() + "\n";
-                output += "Last Name:\t" + inf.results.get(0).getName().getLast() + "\n";
-                output += "Street Name:\t" + inf.results.get(0).getLocation().getStreet().getName() + "\n";
-                output += "Street Number:\t" + Integer.toString(inf.results.get(0).getLocation().getStreet().getNumber()) + "\n";
-                output += "City:\t" + inf.results.get(0).getLocation().getCity() + "\n";
-                output += "State:\t" + inf.results.get(0).getLocation().getState() + "\n";
-                output += "Country:\t" + inf.results.get(0).getLocation().getCountry() + "\n";
-                output += "Postcode:\t" + Integer.toString(inf.results.get(0).getLocation().getPostcode()) + "\n";
-                output += "Email:\t" + inf.results.get(0).getEmail() + "\n";
-                output += "Login username:\t" + inf.results.get(0).getLogin().getUsername() + "\n";
-                output += "Login Password:\t" + inf.results.get(0).getLogin().getPassword() + "\n";
-                output += "Date of Birth:\t" + inf.results.get(0).getDob().getDate() + "\n";
-                output += "Age:\t" + inf.results.get(0).getDob().getAge() + "\n";
-                output += "Phone Number:\t" + inf.results.get(0).getPhone() + "\n";
-                output += "Cell Number:\t" + inf.results.get(0).getCell() + "\n";
-                output += "Nationality:\t" + inf.results.get(0).getNat() + "\n";
+                String output1 = " ";
+                String output2 = " ";
+                String output3 = " ";
+                String output4 = " ";
+                output1 += "Gender:\t" + inf.results.get(0).getGender() + "\n";
+                output1 += "Title:\t" + inf.results.get(0).getName().getTitle() + "\n";
+                output1 += "First name:\t" + inf.results.get(0).getName().getFirst() + "\n";
+                output1 += "Last Name:\t" + inf.results.get(0).getName().getLast() + "\n";
+                output2 += "Street Name:\t" + inf.results.get(0).getLocation().getStreet().getName() + "\n";
+                output2 += "Street Number:\t" + Integer.toString(inf.results.get(0).getLocation().getStreet().getNumber()) + "\n";
+                output2 += "City:\t" + inf.results.get(0).getLocation().getCity() + "\n";
+                output2 += "State:\t" + inf.results.get(0).getLocation().getState() + "\n";
+                output2 += "Country:\t" + inf.results.get(0).getLocation().getCountry() + "\n";
+                output2 += "Postcode:\t" + Integer.toString(inf.results.get(0).getLocation().getPostcode()) + "\n";
+                output3 += "Email:\t" + inf.results.get(0).getEmail() + "\n";
+                output3 += "Login username:\t" + inf.results.get(0).getLogin().getUsername() + "\n";
+                output3 += "Login Password:\t" + inf.results.get(0).getLogin().getPassword() + "\n";
+                output4 += "Date of Birth:\t" + inf.results.get(0).getDob().getDate() + "\n";
+                output4 += "Age:\t" + inf.results.get(0).getDob().getAge() + "\n";
+                output3 += "Phone Number:\t" + inf.results.get(0).getPhone() + "\n";
+                output3 += "Cell Number:\t" + inf.results.get(0).getCell() + "\n";
+                output2 += "Nationality:\t" + inf.results.get(0).getNat() + "\n";
 
-                textView.setText(output.trim());
+                MainInformation.setText(output1.trim());
+                LivingInformation.setText(output2.trim());
+                AgeInformation.setText(output4.trim());
+                ContactInformation.setText(output3.trim());
 
             }
 
