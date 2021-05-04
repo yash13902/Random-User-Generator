@@ -8,8 +8,5 @@ public interface JsonPlaceHolderAPI {
     String BASE_URL = "https://randomuser.me/";
     @GET("api")
     Call<Information> getInformation();
-
-
-
-
+    
 }
